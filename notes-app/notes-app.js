@@ -34,10 +34,10 @@ const filters = {
 };
 
 //Creates a function for realtime filtering
-const renderNotes = function(notes, filters) {
+const renderNotes = function (notes, filters) {
     //uses filter method which returns an array of matching text
     //const inputID = document.querySelector('#search-text');
-    const filteredNotes = notes.filter(function(note) {
+    const filteredNotes = notes.filter(function (note) {
         //returns text if it includes the searchText from the filter object
         return note.title.toLowerCase().includes(filters.searchText.toLowerCase());
     });
@@ -45,7 +45,7 @@ const renderNotes = function(notes, filters) {
     //will clear everything each time new input is entered
     document.querySelector('#notes').innerHTML = '';
 
-    filteredNotes.forEach(function(note) {
+    filteredNotes.forEach(function (note) {
         const foundItem = document.createElement('p');
         foundItem.textContent = note.title;
         document.querySelector('#notes').appendChild(foundItem);
@@ -58,10 +58,9 @@ renderNotes(notes, filters);
 //everytime this gets new input, it calls the renderNotes() function
 //This takes from the input field and changes the 'filters' object property 'searchText'
 //searchText is the text being searched by the user
-document.querySelector('#search-text').addEventListener('input', function(event) {
+document.querySelector('#search-text').addEventListener('input', function (event) {
     //this sets the filter object to the most current input
     filters.searchText = event.target.value;
     //calls the function for each input
     renderNotes(notes, filters);
 });
-
