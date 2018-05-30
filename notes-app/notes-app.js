@@ -9,7 +9,7 @@ const notes = [{
     title: "my next trip",
     body: "I would like to go somewhere"
 }, {
-    title: "Habbits to work on",
+    title: "Habits to work on",
     body: "Pretty much every single thing"
 }, {
     title: "Office modifications",
@@ -19,7 +19,7 @@ const notes = [{
 /*********How the filter function works*********************************************************
  * the function is run to display all the current todos
  * the eventlistener on the form is listening for input
- * the filters object with property 'searchText' is updated everytime a new key is pressed
+ * the filters object with property 'searchText' is updated every time a new key is pressed
  * renderNotes() is then run
  * It uses the filter function to return an array of items that include() the search term
  * once the filter method returns, everything in the #notes div is cleared
@@ -27,13 +27,13 @@ const notes = [{
  * rinse repeat
  ***********************************************************************************************/
 
-//gets updated everytime the input on the form is changed
-//everytime the renderNotes() function is called
+//gets updated every time the input on the form is changed
+//every time the renderNotes() function is called
 const filters = {
     searchText: ''
 };
 
-//Creates a function for realtime filtering
+//Creates a function for real time filtering
 const renderNotes = function (notes, filters) {
     //uses filter method which returns an array of matching text
     //const inputID = document.querySelector('#search-text');
@@ -55,7 +55,7 @@ const renderNotes = function (notes, filters) {
 //call the function once to display all the todos
 renderNotes(notes, filters);
 
-//everytime this gets new input, it calls the renderNotes() function
+//every time this gets new input, it calls the renderNotes() function
 //This takes from the input field and changes the 'filters' object property 'searchText'
 //searchText is the text being searched by the user
 document.querySelector('#search-text').addEventListener('input', function (event) {
