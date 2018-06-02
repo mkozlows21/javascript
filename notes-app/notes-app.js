@@ -64,3 +64,10 @@ document.querySelector('#search-text').addEventListener('input', function (event
     //calls the function for each input
     renderNotes(notes, filters);
 });
+
+document.querySelector('#name-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    let name = event.target.elements.firstName.value;
+    console.log(name);
+    event.target.elements.firstName.value = '';
+});

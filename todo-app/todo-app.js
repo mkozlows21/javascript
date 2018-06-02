@@ -50,3 +50,5 @@ document.querySelector('#search-todo').addEventListener('input', function(event)
     filters.searchText = event.target.value;
     renderTodos(todos, filters);
 });
+
+console.log("message");
