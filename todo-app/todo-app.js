@@ -51,4 +51,3 @@ document.querySelector('#search-todo').addEventListener('input', function(event)
     renderTodos(todos, filters);
 });
 
-console.log("message");
