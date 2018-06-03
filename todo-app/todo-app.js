@@ -43,11 +43,24 @@ const renderTodos = function(todos, filters) {
         document.querySelector('#todos').appendChild(foundItem);
     });
 };
-
 renderTodos(todos, filters);
 
 document.querySelector('#search-todo').addEventListener('input', function(event) {
     filters.searchText = event.target.value;
     renderTodos(todos, filters);
+});
+
+document.querySelector('#new-todo').addEventListener('submit', function(event) {
+    event.preventDefault(); //prevents full page refresh
+    let task = event.target.elements.text.value;
+    
+    //access the todos array
+    todos.push({
+        text: task,
+        completed: false
+    });
+
+    renderTodos(todos, filters);
+    event.target.elements.text.value = '';
 });
 
