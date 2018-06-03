@@ -21,7 +21,7 @@ const incompletes = todos.filter(function(todo) {
 
 const summary = document.createElement('p');
 summary.textContent = `You have ${incompletes.length} todos remaining`;
-document.querySelector('#todos-left').appendChild(summary);
+document.querySelector('#todos').appendChild(summary);
 
 const filters = {
     searchText: ''
@@ -36,6 +36,10 @@ const renderTodos = function(todos, filters) {
     });
     
     document.querySelector('#todos').innerHTML = '';
+
+    const summary = document.createElement('h2');
+    summary.textContent = `You have ${incompleteTodos.length} left`;
+    document.querySelector('#todos').appendChild(summary);
 
     incompleteTodos.forEach(function(item) {
         const foundItem = document.createElement('p');
