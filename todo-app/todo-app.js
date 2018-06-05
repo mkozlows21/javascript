@@ -24,13 +24,18 @@ summary.textContent = `You have ${incompletes.length} todos remaining`;
 document.querySelector('#todos').appendChild(summary);
 
 const filters = {
-    searchText: ''
+    searchText: '',
+    hideCompleted: false
 };
 
 const renderTodos = function(todos, filters) {
     const filteredTodos = todos.filter(function(todo) {
-        return todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
+        const searchTextMatched = todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
+        const hideCompletedMatch = !filters.hideCompleted || !todo.completed;
+        return searchTextMatched && hideCompletedMatch;
     });
+
+
     const incompleteTodos = filteredTodos.filter(function(todo) {
         return !todo.completed;
     });
@@ -41,7 +46,7 @@ const renderTodos = function(todos, filters) {
     summary.textContent = `You have ${incompleteTodos.length} left`;
     document.querySelector('#todos').appendChild(summary);
 
-    incompleteTodos.forEach(function(item) {
+    filteredTodos.forEach(function(item) {
         const foundItem = document.createElement('p');
         foundItem.textContent = item.text;
         document.querySelector('#todos').appendChild(foundItem);
@@ -68,3 +73,8 @@ document.querySelector('#new-todo').addEventListener('submit', function(event) {
     event.target.elements.text.value = '';
 });
 
+document.querySelector("#hide-completed").addEventListener('change', function(event) {
+    filters.hideCompleted = event.target.checked;
+    renderTodos(todos, filters);
+    console.log(filters.hideCompleted);
+});

@@ -65,3 +65,15 @@ document.querySelector('#search-text').addEventListener('input', function (event
     renderNotes(notes, filters);
 });
 
+document.querySelector('#filter-by').addEventListener('change', function(event){
+    console.log(event.target.value);
+});
+
+
+let area = document.querySelector('#filter-by');
+
+for(let i = 0; i < 5; i++) {
+    let newVal = document.createElement('option');
+    newVal.textContent = i;
+    area.appendChild(newVal);
+}
