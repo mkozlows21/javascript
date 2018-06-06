@@ -1,58 +1,12 @@
-// const todos = [{
-//     text: 'Order dog food',
-//     completed: false
-// }, {
-//     text: 'Meet the parents',
-//     completed: true
-// }, {
-//     text: 'Clean kitchen',
-//     completed: false
-// }, {
-//     text: 'Exercise',
-//     completed: false
-// }, {
-//     text: 'Dog school',
-//     completed: true
-// }];
 
-let todos = [];
-
-//check for existing data in local storage 
-const todosJSON = localStorage.getItem('todos');
-if(todosJSON !== null) {
-    todos = JSON.parse(todosJSON);
-}
-console.log(todos);
+let todos = getSavedTodos();
 
 const filters = {
     searchText: '',
     hideCompleted: false
 };
 
-const renderTodos = function(todos, filters) {
-    const filteredTodos = todos.filter(function(todo) {
-        //not sure what this is doing exactly
-        const searchTextMatched = todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
-        const hideCompletedMatch = !filters.hideCompleted || !todo.completed;
-        return searchTextMatched && hideCompletedMatch;
-    });
 
-    const incompleteTodos = filteredTodos.filter(function(todo) {
-        return !todo.completed;
-    });
-    
-    document.querySelector('#todos').innerHTML = '';
-
-    const summary = document.createElement('h2');
-    summary.textContent = `You have ${incompleteTodos.length} left`;
-    document.querySelector('#todos').appendChild(summary);
-
-    filteredTodos.forEach(function(item) {
-        const foundItem = document.createElement('p');
-        foundItem.textContent = item.text;
-        document.querySelector('#todos').appendChild(foundItem);
-    });
-};
 renderTodos(todos, filters);
 
 document.querySelector('#search-todo').addEventListener('input', function(event) {
@@ -69,8 +23,8 @@ document.querySelector('#new-todo').addEventListener('submit', function(event) {
         text: task,
         completed: false
     });
-    localStorage.setItem('todos', JSON.stringify(todos));
-
+    //save the array of todos in local storage as a string when submit button is clicked
+    saveTodos(todos);
 
     renderTodos(todos, filters);
     event.target.elements.text.value = '';
