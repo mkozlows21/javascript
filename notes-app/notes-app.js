@@ -5,16 +5,15 @@ searchQuery.addEventListener('change', function(event) {
 });
 */
 
-const notes = [{
-    title: "my next trip",
-    body: "I would like to go somewhere"
-}, {
-    title: "Habits to work on",
-    body: "Pretty much every single thing"
-}, {
-    title: "Office modifications",
-    body: "Get a new chair that doesn't suck"
-}];
+let notes = [];
+
+//check for existing saved data
+const notesJSON = localStorage.getItem('notes');
+if(notesJSON !== null) {
+    notes = JSON.parse(notesJSON);
+}
+
+console.log(notes);
 
 /*********How the filter function works*********************************************************
  * the function is run to display all the current todos
@@ -33,6 +32,32 @@ const filters = {
     searchText: ''
 };
 
+//Create - C
+//Update - U
+//localStorage.setItem('location', 'Boston');
+
+//Retrieve - R
+// console.log(localStorage.getItem('location'));
+
+//Delete - D
+// localStorage.removeItem('location');
+
+//Clear - removes all items in local storage
+//localStorage.clear();
+
+// const user = {
+//     name: 'Mike',
+//     age: 25
+// };
+// const usrJSON = JSON.stringify(user);
+// console.log(usrJSON);
+// localStorage.setItem('user', usrJSON);
+
+//retrieve from local storage
+// const userJSON = localStorage.getItem('user');
+// const user = JSON.parse(userJSON);
+// console.log(user.name);
+
 //Creates a function for real time filtering
 const renderNotes = function (notes, filters) {
     //uses filter method which returns an array of matching text
@@ -47,7 +72,13 @@ const renderNotes = function (notes, filters) {
 
     filteredNotes.forEach(function (note) {
         const foundItem = document.createElement('p');
-        foundItem.textContent = note.title;
+
+        if(note.title > 0) {
+            foundItem.textContent = note.title;
+        } else {
+            foundItem.textContent = 'Unnamed note';
+        }
+        
         document.querySelector('#notes').appendChild(foundItem);
     });
 };
@@ -67,6 +98,15 @@ document.querySelector('#search-text').addEventListener('input', function (event
 
 document.querySelector('#filter-by').addEventListener('change', function(event){
     console.log(event.target.value);
+});
+
+document.querySelector('#create-notes').addEventListener('click', function(event) {
+    notes.push({
+        title: '',
+        body: ''
+    });
+    localStorage.setItem('notes', JSON.stringify(notes));
+    renderNotes(notes, filters);
 });
 
 
