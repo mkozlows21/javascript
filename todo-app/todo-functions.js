@@ -19,8 +19,10 @@ const renderTodos = function (todos, filters) {
         //not sure what this is doing exactly
         const searchTextMatched = todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
         const hideCompletedMatch = !filters.hideCompleted || !todo.completed;
+
         return searchTextMatched && hideCompletedMatch;
     });
+
 
     const incompleteTodos = filteredTodos.filter(function (todo) {
         return !todo.completed;
@@ -37,11 +39,61 @@ const renderTodos = function (todos, filters) {
     });
 };
 
-const generateTodoDOM = function(todo) {
-    const foundItem = document.createElement('p');
-    foundItem.textContent = todo.text;
+const removeTodo = function(id) {
+    const todoIndex = todos.findIndex(function(todo) {
+        return todo.id === id;
+    });
 
-    return foundItem;
+    if(todoIndex > -1) {
+        todos.splice(todoIndex, 1);
+    }
+};
+
+//works the same as what i did just not a function
+const toggleTodo = function(todoID) {
+    const todo = todos.find(function(todo) {
+        return todo.id === todoID;
+    });
+
+    if(todo !== undefined) {
+        todo.completed = !todo.completed;
+    }
+};
+
+
+const generateTodoDOM = function(todo) {
+    const todoElement = document.createElement('div');
+    const button = document.createElement('input');
+    button.setAttribute('type', 'checkbox');
+    const foundItem = document.createElement('span');
+    const removeButton = document.createElement('button');
+
+    button.checked = todo.completed;
+    button.addEventListener('change', function(event) {
+        if(todo.completed)
+            todo.completed = false;
+        else
+            todo.completed = true;
+
+        saveTodos(todos);
+        renderTodos(todos, filters);
+    });
+
+    removeButton.addEventListener('click', function(event) {
+        console.log(todo.id);
+        removeTodo(todo.id);
+        saveTodos(todos);
+        renderTodos(todos, filters);
+    });
+
+    removeButton.textContent = 'x';
+    
+    todoElement.appendChild(button);
+    foundItem.textContent = todo.text;
+    todoElement.appendChild(foundItem);
+    todoElement.appendChild(removeButton);
+
+    return todoElement;
 };
 
 const generateSummaryDOM = function(incompleteTodos) {

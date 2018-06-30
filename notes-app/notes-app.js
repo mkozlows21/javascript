@@ -26,6 +26,7 @@ document.querySelector('#filter-by').addEventListener('change', function(event){
 
 document.querySelector('#create-notes').addEventListener('click', function(event) {
     notes.push({
+        id: uuidv4(),
         title: '',
         body: ''
     });

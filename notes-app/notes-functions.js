@@ -13,17 +13,42 @@ const saveNotes = function(notes) {
     localStorage.setItem('notes', JSON.stringify(notes));
 };
 
+//remove a note from the list
+const removeNote = function(id) {
+    const noteIndex = notes.findIndex(function(note) {
+        return note.id === id;
+    });
+
+    if(noteIndex > -1) {
+        notes.splice(noteIndex, 1);
+    }
+};
+
 //Generates the DOM structure for a note
 const generateNoteDOM = function(note) {
-    const foundItem = document.createElement('p');
+    const noteEl = document.createElement('div');
+    const textEl = document.createElement('span');
+    const button = document.createElement('button');
+    button.addEventListener('click', function(event) {
+        removeNote(note.id);
+        saveNotes(notes);
+        renderNotes(notes, filters);
+    });
 
+    //setup the remove note button
+    button.textContent = 'x';
+    noteEl.appendChild(button);
+
+    //setup note title text
     if (note.title > 0) {
-        foundItem.textContent = note.title;
+        textEl.textContent = note.title;
     } else {
-        foundItem.textContent = 'Unnamed note';
+        textEl.textContent = 'Unnamed note';
     }
 
-    return foundItem;
+    noteEl.appendChild(textEl);
+
+    return noteEl;
 };
 
 

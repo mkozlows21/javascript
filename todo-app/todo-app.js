@@ -20,6 +20,7 @@ document.querySelector('#new-todo').addEventListener('submit', function(event) {
     
     //access the todos array and push a new object
     todos.push({
+        id: uuidv4(),
         text: task,
         completed: false
     });
