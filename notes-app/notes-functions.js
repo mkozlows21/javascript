@@ -1,5 +1,5 @@
 //read existing notes from localStorage
-const getSavedNotes = function() {
+const getSavedNotes = () => {
     const notesJSON = localStorage.getItem('notes');
     if(notesJSON !== null) {
         return JSON.parse(notesJSON);
@@ -9,15 +9,13 @@ const getSavedNotes = function() {
 };
 
 //save the notes to localStorage
-const saveNotes = function(notes) {
+const saveNotes = (notes) => {
     localStorage.setItem('notes', JSON.stringify(notes));
 };
 
 //remove a note from the list
-const removeNote = function(id) {
-    const noteIndex = notes.findIndex(function(note) {
-        return note.id === id;
-    });
+const removeNote = (id) => {
+    const noteIndex = notes.findIndex((note) => note.id === id);
 
     if(noteIndex > -1) {
         notes.splice(noteIndex, 1);
@@ -25,11 +23,11 @@ const removeNote = function(id) {
 };
 
 //Generates the DOM structure for a note
-const generateNoteDOM = function(note) {
+const generateNoteDOM = (note) => {
     const noteEl = document.createElement('div');
-    const textEl = document.createElement('span');
+    const textEl = document.createElement('a');
     const button = document.createElement('button');
-    button.addEventListener('click', function(event) {
+    button.addEventListener('click', (event) => {
         removeNote(note.id);
         saveNotes(notes);
         renderNotes(notes, filters);
@@ -40,17 +38,50 @@ const generateNoteDOM = function(note) {
     noteEl.appendChild(button);
 
     //setup note title text
-    if (note.title > 0) {
+    if (note.title.length > 0) {
         textEl.textContent = note.title;
     } else {
         textEl.textContent = 'Unnamed note';
     }
 
+    textEl.setAttribute('href', `edit.html#${note.id}`);
     noteEl.appendChild(textEl);
 
     return noteEl;
 };
 
+//sort notes by one of three ways
+const sortNotes = (notes, sortBy) => {
+    if (sortBy === 'byEdited') {
+        return notes.sort((a,b) => {
+            if(a.updatedAt > b.updatedAt) {
+                return  -1;
+            } else if (a.updatedAt < b.updatedAt) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+    } else if(sortBy === 'byCreated') {
+        return notes.sort((a,b) => {
+            if(a.createdAt > b.createdAt)
+                return -1;
+            else if (a.createdAt < b.createdAt)
+                return 1;
+            else
+                return 0;
+        });
+    } else if(sortBy === 'byAlpha') {
+        return notes.sort((a,b) => {
+            if(a.title.toLowerCase() < b.title.toLowerCase())
+                return -1;
+            else if(a.title.toLowerCase() > b.title.toLowerCase()) 
+                return 1;
+            else
+                return 0;
+        });
+    }
+};
 
 /*********How the filter function works*********************************************************
  * the function is run to display all the current todos
@@ -64,19 +95,23 @@ const generateNoteDOM = function(note) {
  ***********************************************************************************************/
 
 //Render application notes
-const renderNotes = function (notes, filters) {
+const renderNotes = (notes, filters) => {
+    notes = sortNotes(notes, filters.sortBy);
     //uses filter method which returns an array of matching text
     //const inputID = document.querySelector('#search-text');
-    const filteredNotes = notes.filter(function (note) {
+    const filteredNotes = notes.filter((note) => 
         //returns text if it includes the searchText from the filter object
-        return note.title.toLowerCase().includes(filters.searchText.toLowerCase());
-    });
+         note.title.toLowerCase().includes(filters.searchText.toLowerCase())
+    );
 
     //will clear everything each time new input is entered
     document.querySelector('#notes').innerHTML = '';
 
-    filteredNotes.forEach(function (note) {
+    filteredNotes.forEach((note) => {
         const noteElement = generateNoteDOM(note);
         document.querySelector('#notes').appendChild(noteElement);
     });
 };
+
+//Generate the last edited message
+const generateLastEdit = (timestamp) => `Last Edited: ${moment(timestamp).fromNow()}`;
