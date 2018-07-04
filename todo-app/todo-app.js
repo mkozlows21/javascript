@@ -9,12 +9,12 @@ const filters = {
 
 renderTodos(todos, filters);
 
-document.querySelector('#search-todo').addEventListener('input', function(event) {
+document.querySelector('#search-todo').addEventListener('input', (event) => {
     filters.searchText = event.target.value;
     renderTodos(todos, filters);
 });
 
-document.querySelector('#new-todo').addEventListener('submit', function(event) {
+document.querySelector('#new-todo').addEventListener('submit', (event) => {
     event.preventDefault(); //prevents full page refresh
     let task = event.target.elements.text.value;
     
@@ -31,7 +31,7 @@ document.querySelector('#new-todo').addEventListener('submit', function(event) {
     event.target.elements.text.value = '';
 });
 
-document.querySelector("#hide-completed").addEventListener('change', function(event) {
+document.querySelector("#hide-completed").addEventListener('change', (event) => {
     filters.hideCompleted = event.target.checked;
     renderTodos(todos, filters);
     console.log(filters.hideCompleted);
