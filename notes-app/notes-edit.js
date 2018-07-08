@@ -2,12 +2,13 @@ const titleElement = document.querySelector('#note-title');
 const bodyElement = document.querySelector('#note-body');
 const removeButton = document.querySelector('#remove-note');
 const dateElement = document.querySelector("#last-edit");
+const createButton = document.querySelector('#create-note');
 const noteID = location.hash.substring(1);
 let notes = getSavedNotes();
 
 let note = notes.find((note) => note.id === noteID);
 
-if(note === undefined) {
+if(!note) {
     location.assign('index.html');
 }
 
@@ -35,13 +36,17 @@ removeButton.addEventListener('click', (event) => {
     location.assign('index.html');
 });
 
+createButton.addEventListener('click', (event) => {
+    location.assign('index.html');
+});
+
 window.addEventListener('storage', (event) => {
     if(event.key === 'notes') {
         notes = JSON.parse(event.newValue);
     }
     let note = notes.find((note) =>  note.id === noteID);
 
-    if (note === undefined) {
+    if (!note) {
         location.assign('index.html');
     }
 

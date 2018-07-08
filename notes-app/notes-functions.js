@@ -1,9 +1,10 @@
 //read existing notes from localStorage
 const getSavedNotes = () => {
     const notesJSON = localStorage.getItem('notes');
-    if(notesJSON !== null) {
-        return JSON.parse(notesJSON);
-    } else {
+
+    try {
+        return notesJSON  ? JSON.parse(notesJSON) : [];
+    } catch(e) {
         return [];
     }
 };
@@ -99,10 +100,9 @@ const renderNotes = (notes, filters) => {
     notes = sortNotes(notes, filters.sortBy);
     //uses filter method which returns an array of matching text
     //const inputID = document.querySelector('#search-text');
-    const filteredNotes = notes.filter((note) => 
-        //returns text if it includes the searchText from the filter object
-         note.title.toLowerCase().includes(filters.searchText.toLowerCase())
-    );
+
+    //returns text if it includes the searchText from the filter object
+    const filteredNotes = notes.filter((note) => note.title.toLowerCase().includes(filters.searchText.toLowerCase()));
 
     //will clear everything each time new input is entered
     document.querySelector('#notes').innerHTML = '';
