@@ -1,3 +1,3 @@
 # javascript
-Making some changes to the repository
-Now pull to vscode
+Making some changes to the repository.
+Now pull to vscode.
